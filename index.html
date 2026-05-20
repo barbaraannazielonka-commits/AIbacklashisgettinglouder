@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When the Room Booed AI. A High School Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111827;
+    --paper: #ffffff;
+    --cream: #eff6ff;
+    --accent: #dc2626;
+    --accent2: #1d4ed8;
+    --gold: #92400e;
+    --muted: #374151;
+    --rule: #bfdbfe;
+    --task-bg: #1d4ed8;
+    --task-text: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+    color: #ffffff;
+    padding: 0 0 0 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.06) 39px,
+      rgba(255,255,255,0.06) 40px
+    );
+    pointer-events: none;
+  }
+
+  .masthead-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    padding: 3.5rem 3rem 0;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .masthead-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #bfdbfe;
+    padding: 0.4rem 3rem 0;
+    letter-spacing: 0.15em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.35s forwards;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    font-weight: 900;
+    line-height: 0.9;
+    padding: 1.5rem 3rem 0;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .masthead-deck {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    color: #dbeafe;
+    max-width: 680px;
+    padding: 1.5rem 3rem;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .masthead-bar {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.2rem 3rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+
+  .masthead-bar span { color: #ffffff; font-weight:500; }
+
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 3rem;
+    padding-bottom: 2rem;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: #93c5fd;
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, #4a4438, transparent);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  /* SECTION RULES */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3.5rem 0 1.5rem;
+  }
+
+  .section-rule::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* CONTEXT BLOCK */
+  .context-section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.25;
+    border-left: 4px solid var(--accent);
+    padding-left: 1.5rem;
+    color: var(--ink);
+  }
+
+  .pull-quote em { color: var(--accent); font-style: italic; }
+
+  .context-body p {
+    font-size: 1rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--cream);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* LESSON OVERVIEW */
+  .lesson-header {
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    color: white;
+    padding: 3rem;
+    margin: 3rem 0 0;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lesson-header::before {
+    content: '§';
+    position: absolute;
+    right: 2rem;
+    top: -1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 12rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .lesson-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .lesson-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .meta-pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .lesson-objectives {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .obj-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .obj-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--gold);
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  /* TASKS */
+  .tasks-section { padding: 2rem 0 4rem; }
+
+  .task-card {
+    margin: 2.5rem 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  }
+
+  .task-header {
+    display: flex;
+    align-items: stretch;
+    background: #1e3a8a;
+    color: #ffffff;
+  }
+
+  .task-num-block {
+    background: var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1.8rem;
+    min-width: 80px;
+  }
+
+  .task-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: white;
+  }
+
+  .task-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 0.3rem;
+    text-align: center;
+  }
+
+  .task-title-block {
+    padding: 1.5rem 2rem;
+    flex: 1;
+  }
+
+  .task-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 0.4rem;
+  }
+
+  .task-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .task-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #93c5fd;
+    margin-top: 0.4rem;
+    letter-spacing: 0.1em;
+  }
+
+  .task-body {
+    background: #f8faff;
+    padding: 2rem 2.5rem;
+  }
+
+  .task-intro {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1rem;
+  }
+
+  .task-steps {
+    list-style: none;
+    counter-reset: steps;
+  }
+
+  .task-steps li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.95rem;
+    color: #2a2520;
+    align-items: flex-start;
+  }
+
+  .task-steps li::before {
+    content: counter(steps, upper-alpha);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    background: var(--accent2);
+    color: white;
+    border-radius: 100px;
+    padding: 0.1rem 0.5rem;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .tip-box {
+    background: #0f3460;
+    color: #e0f2fe;
+    padding: 1rem 1.5rem;
+    border-radius: 3px;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .tip-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .vocab-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent2);
+    padding: 0.9rem 1rem;
+    border-radius: 2px;
+  }
+
+  .vocab-term {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .vocab-def {
+    font-size: 0.82rem;
+    color: #1f2937;
+    line-height: 1.5;
+  }
+
+  /* DEBATE TASK */
+  .debate-sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .debate-side {
+    padding: 1.5rem;
+    border-radius: 3px;
+  }
+
+  .debate-side.pro { background: #f0fdf4; border-top: 3px solid #16a34a; }
+  .debate-side.con { background: #fbeaea; border-top: 3px solid var(--accent); }
+
+  .debate-side-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .debate-side.pro .debate-side-label { color: #15803d; }
+  .debate-side.con .debate-side-label { color: var(--accent); }
+
+  .debate-side h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .debate-side ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .debate-side li {
+    font-size: 0.85rem;
+    padding: 0.35rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    color: #1f2937;
+    line-height: 1.5;
+  }
+
+  .debate-side.pro li::before { content: '→'; position: absolute; left: 0; color: #16a34a; }
+  .debate-side.con li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+  /* WRITING TASK */
+  .newspaper-mock {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    border-radius: 3px;
+    margin-top: 1.5rem;
+    position: relative;
+  }
+
+  .newspaper-mock-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 1.5rem;
+    background: white;
+    padding: 0 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .mock-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: #ccc;
+  }
+
+  .mock-byline { color: #999; font-size: 0.65rem; margin-bottom: 0.75rem; }
+
+  .mock-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .mock-col { border-right: 1px solid #eee; padding-right: 1rem; }
+  .mock-col:last-child { border-right: none; padding-right: 0; }
+
+  .mock-line {
+    background: #f0f0f0;
+    height: 8px;
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+
+  .mock-line.short { width: 60%; }
+  .mock-line.medium { width: 80%; }
+
+  /* DISCUSSION */
+  .discussion-section {
+    background: #0f172a;
+    color: #f1f5f9;
+    padding: 4rem 3rem;
+    margin: 0;
+  }
+
+  .discussion-section .container { max-width: 1100px; margin: 0 auto; }
+
+  .discussion-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .discussion-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .discussion-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding-bottom: 0.3rem;
+  }
+
+  .question-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .q-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 3px;
+    padding: 1.5rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .q-card:hover { background: rgba(255,255,255,0.14); }
+
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(196, 150, 58, 0.3);
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    line-height: 1;
+  }
+
+  .q-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .q-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #f1f5f9;
+  }
+
+  .q-prompt {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+
+  /* SOURCES */
+  .sources-section {
+    padding: 4rem 0;
+    border-top: 3px double var(--rule);
+  }
+
+  .sources-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .source-card {
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .source-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--rule);
+    transition: background 0.2s;
+  }
+
+  .source-card:hover { border-color: var(--accent2); box-shadow: 0 4px 16px rgba(29,78,216,0.15); }
+  .source-card:hover::before { background: var(--accent2); }
+
+  .source-outlet {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.4rem;
+  }
+
+  .source-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .source-desc {
+    font-size: 0.8rem;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .source-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: #dbeafe;
+    margin-top: 0.6rem;
+    word-break: break-all;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #eff6ff;
+    border-top: 1px solid var(--rule);
+    padding: 2rem 3rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--rule);
+    padding: 0.8rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--accent2);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-right: 1rem;
+  }
+
+  .nav-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-link:hover { color: var(--accent2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .masthead h1 { padding: 1rem 1.5rem 0; }
+    .masthead-label, .masthead-issue, .masthead-deck, .masthead-bar { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .container { padding: 0 1.5rem; }
+    .context-grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr; }
+    .lesson-objectives { grid-template-columns: 1fr; }
+    .debate-sides { grid-template-columns: 1fr; }
+    .question-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .mock-body { grid-template-columns: 1fr; }
+    .sticky-nav { padding: 0.8rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<section class="masthead">
+  <div class="masthead-label">Critical Thinking in the Age of AI. Lesson Plan</div>
+  <div class="masthead-issue">Level B2/C1 · High School · May 2026</div>
+  <h1>When the Room<br><em>Booed</em> AI</h1>
+  <p class="masthead-deck">Graduates are turning their backs on AI speakers at commencement ceremonies. But this isn't a story about technology. It's a story about trust, the future of work, and who gets to write the next chapter.</p>
+  <div class="masthead-bar">
+    <span>4 Tasks</span> · Reading + Analysis + Debate + Writing ·
+    <span>Discussion Questions</span> ·
+    <span>Sources Included</span> ·
+    90 min lesson
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- NAV -->
+<nav class="sticky-nav">
+  <div class="nav-logo">When the Room Booed AI</div>
+  <span class="nav-link" onclick="document.getElementById('context').scrollIntoView({behavior:'smooth'})">Context</span>
+  <span class="nav-link" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">Lesson Plan</span>
+  <span class="nav-link" onclick="document.getElementById('tasks').scrollIntoView({behavior:'smooth'})">Tasks</span>
+  <span class="nav-link" onclick="document.getElementById('discussion').scrollIntoView({behavior:'smooth'})">Discussion</span>
+  <span class="nav-link" onclick="document.getElementById('sources').scrollIntoView({behavior:'smooth'})">Sources</span>
+</nav>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="container">
+    <div class="section-rule"><span class="section-tag">What's happening</span></div>
+
+    <div class="context-grid reveal">
+      <div>
+        <div class="pull-quote">The issue is not hatred of technology, but the feeling of <em>not being heard.</em></div>
+      </div>
+      <div class="context-body">
+        <p>In May 2026, something unusual happened at university graduation ceremonies across the United States. When commencement speakers began talking enthusiastically about artificial intelligence, the graduating students booed.</p>
+        <p>At the University of Arizona, former Google CEO Eric Schmidt was interrupted multiple times with boos as he compared AI to the invention of the computer. At the University of Central Florida, real estate executive Gloria Caulfield was met with groans the moment she said, "The rise of artificial intelligence is the next industrial revolution."</p>
+        <p>The reaction wasn't random. These graduates have spent years being told <em>not</em> to use AI in their coursework. and are now entering the worst job market for young people in recent memory, where many job listings demand they "collaborate with AI." They feel the disconnect viscerally.</p>
+      </div>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat-box">
+        <span class="stat-num">43%</span>
+        <span class="stat-label">of young Americans (15–34) say it's a good time to find a job. down from 75% in 2022 <em style="font-style:normal;display:block;margin-top:0.3rem;color:#374151;font-size:0.7rem;">(Gallup, 2026)</em></span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">42%</span>
+        <span class="stat-label">of Americans think AI will eliminate jobs in their field <em style="font-style:normal;display:block;margin-top:0.3rem;color:#374151;font-size:0.7rem;">(CBS News Poll, 2025)</em></span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">73%</span>
+        <span class="stat-label">of AI experts think AI will positively impact work. vs. only 23% of the general public <em style="font-style:normal;display:block;margin-top:0.3rem;color:#374151;font-size:0.7rem;">(Pew Research, 2025)</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LESSON OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-rule"><span class="section-tag">Lesson Plan Overview</span></div>
+
+    <div class="lesson-header reveal">
+      <h2>When the Room Booed AI</h2>
+      <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;margin-top:0.5rem;">A lesson in critical media literacy, technology ethics, and the politics of trust</p>
+      <div class="lesson-meta">
+        <span class="meta-pill">⏱ 90 minutes</span>
+        <span class="meta-pill">📚 Level B2 / C1</span>
+        <span class="meta-pill">🎓 High School</span>
+        <span class="meta-pill">📰 4 Real News Sources</span>
+        <span class="meta-pill">💬 Group + Individual</span>
+      </div>
+      <div class="lesson-objectives">
+        <div class="obj-item">
+          <span class="obj-num">1.</span>
+          <span>Read and analyse authentic news articles about the AI backlash at graduation ceremonies</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-num">2.</span>
+          <span>Identify and evaluate different perspectives on AI and the job market</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-num">3.</span>
+          <span>Practise debating a complex, current issue using evidence from real sources</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-num">4.</span>
+          <span>Write a structured opinion piece responding to one of the speakers' arguments</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-num">5.</span>
+          <span>Discuss the difference between fear of technology and loss of trust in institutions</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-num">6.</span>
+          <span>Reflect on your own relationship with AI in education and your futures</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section id="tasks" class="tasks-section">
+  <div class="container">
+    <div class="section-rule"><span class="section-tag">The Tasks</span></div>
+
+    <!-- TASK 1: VOCABULARY -->
+    <div class="task-card reveal">
+      <div class="task-header">
+        <div class="task-num-block">
+          <div class="task-num">01</div>
+          <div class="task-type">Vocab</div>
+        </div>
+        <div class="task-title-block">
+          <div class="task-label">Warm-Up · 15 minutes</div>
+          <div class="task-title">Cracking the Code: Key Language Before You Read</div>
+          <div class="task-time">⏱ Individual → Pairs</div>
+        </div>
+      </div>
+      <div class="task-body">
+        <p class="task-intro">Before diving into the articles, make sure you have the language tools you need. Match each term below to its definition, then use it in a sentence of your own.</p>
+
+        <div class="vocab-grid">
+          <div class="vocab-card">
+            <div class="vocab-term">commencement speech</div>
+            <div class="vocab-def">A formal address given to students graduating from a university. meant to inspire and celebrate their achievement.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">backlash</div>
+            <div class="vocab-def">A strong negative reaction from a group of people, often following a change or announcement they disagree with.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">automation</div>
+            <div class="vocab-def">Using machines or AI to perform tasks that humans used to do. often raising concerns about job losses.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">entry-level job</div>
+            <div class="vocab-def">A job for someone just starting their career, usually requiring little or no work experience.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">tone-deaf</div>
+            <div class="vocab-def">Failing to understand the feelings or concerns of others. saying something that seems ignorant of the mood in the room.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">disruption</div>
+            <div class="vocab-def">A major change that radically alters how an industry or system works. sometimes exciting, sometimes devastating.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">skepticism</div>
+            <div class="vocab-def">A questioning attitude. not necessarily hostile, but requiring evidence before accepting claims.</div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-term">trust deficit</div>
+            <div class="vocab-def">When a large group of people has lost confidence in an institution, leader, or system. a gap between what is promised and what is delivered.</div>
+          </div>
+        </div>
+
+        <ul class="task-steps" style="margin-top:1.5rem;">
+          <li>Match each term above to its definition (They're already matched. Now write them in your own words without looking).</li>
+          <li>Choose three terms and write original sentences connected to <em>your own experience with technology at school</em>.</li>
+          <li>With a partner: which of these words best describes what happened at the graduation ceremonies? Defend your choice.</li>
+        </ul>
+
+        <div class="tip-box">
+          <div class="tip-icon">💡</div>
+          <div><strong>Extension:</strong> The article quotes a graduate who says inviting an AI speaker was "a little bit tone-deaf." Without using the word "tone-deaf," how would you rephrase what she meant? Try three different ways.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 2: READING + ANALYSIS -->
+    <div class="task-card reveal">
+      <div class="task-header">
+        <div class="task-num-block">
+          <div class="task-num">02</div>
+          <div class="task-type">Reading</div>
+        </div>
+        <div class="task-title-block">
+          <div class="task-label">Core Task · 20 minutes</div>
+          <div class="task-title">Read Between the Boos: Analysing Real Headlines</div>
+          <div class="task-time">⏱ Individual → Small Groups (3–4)</div>
+        </div>
+      </div>
+      <div class="task-body">
+        <p class="task-intro">You have four news articles about the same events, written by different outlets. Read the key extracts and answer the questions that follow. Pay close attention to what each writer <em>chooses to include</em>. and what they leave out.</p>
+
+        <ul class="task-steps">
+          <li>Read all four extracts carefully. Note the date, the outlet, and who is speaking in each one.</li>
+          <li><strong>Perspective mapping:</strong> For each extract, identify (a) who is speaking, (b) what they want the reader to feel, and (c) one word or phrase that gives this away.</li>
+          <li><strong>The numbers:</strong> Three statistics appear across the articles. 43%, 42%, and 73%. In your own words, explain what each statistic shows. Do any of them surprise you? Why or why not?</li>
+          <li><strong>Spot the gap:</strong> Olivia Malone (University of Arizona graduate) says: <em>"We as students are discouraged from using AI and penalised for using it. And then to have our speaker be the champion of AI is just like. OK? Why?"</em> What contradiction is she pointing out? Do you think she has a valid point?</li>
+          <li><strong>Headline challenge:</strong> Write your own headline for this story that is (a) neutral, (b) sympathetic to the graduates, (c) sympathetic to Eric Schmidt. Compare with your group.</li>
+        </ul>
+
+        <div class="tip-box">
+          <div class="tip-icon">🔍</div>
+          <div><strong>Critical reading tip:</strong> Notice that Eric Schmidt himself acknowledges the students' fears during his speech. Does the fact that he <em>heard</em> them but <em>kept going</em> change how you feel about the situation? Discuss.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 3: DEBATE -->
+    <div class="task-card reveal">
+      <div class="task-header">
+        <div class="task-num-block">
+          <div class="task-num">03</div>
+          <div class="task-type">Debate</div>
+        </div>
+        <div class="task-title-block">
+          <div class="task-label">Speaking Task · 25 minutes</div>
+          <div class="task-title">Whose Side Are You On? A Structured Debate</div>
+          <div class="task-time">⏱ Teams of 3 vs. 3 · 2 min statements · 1 min rebuttals</div>
+        </div>
+      </div>
+      <div class="task-body">
+        <p class="task-intro">Your class is divided into two sides. Use the evidence from the articles. and your own thinking. to make your case. You may be assigned a side you don't personally agree with. That's intentional: the best debaters can argue any position.</p>
+
+        <div style="background:#1d4ed8;color:#ffffff;border-radius:4px;padding:0.9rem 1.2rem;margin-bottom:1.2rem;"><span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;opacity:0.8;">The Motion</span><br><strong style="font-size:1rem;font-family:'DM Sans',sans-serif;">"Graduates were right to boo AI speakers at their commencements."</strong></div>
+
+        <div class="debate-sides">
+          <div class="debate-side pro">
+            <div class="debate-side-label">✓ For the motion. Students were right</div>
+            <h4>Arguments to develop:</h4>
+            <ul>
+              <li>Commencement speeches should inspire and respect the audience. not lecture them about technology that threatens their livelihoods</li>
+              <li>Students have been penalised for using AI in class. the hypocrisy is real and documented</li>
+              <li>Young people's unemployment rate (7.6%) is far higher than average. their fears are based on data, not just emotion</li>
+              <li>Booing is a form of democratic expression. silence would have been dishonest</li>
+              <li>Leaders who dismiss these fears without offering solutions have lost the right to be heard</li>
+            </ul>
+          </div>
+          <div class="debate-side con">
+            <div class="debate-side-label">✗ Against the motion. Graduates went too far</div>
+            <h4>Arguments to develop:</h4>
+            <ul>
+              <li>Booing a speaker shuts down dialogue. exactly the kind of open debate needed to address AI concerns</li>
+              <li>Eric Schmidt specifically acknowledged students' fears and invited them to <em>shape</em> the future. they stopped listening</li>
+              <li>History shows technological revolutions (internet, computers) created more jobs than they destroyed over time</li>
+              <li>Rejecting AI expertise at graduation doesn't make the problem go away. it makes graduates less prepared</li>
+              <li>The booing targeted the messenger, not the message. and prevented nuanced conversation</li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="task-steps" style="margin-top:1.5rem;">
+          <li><strong>Prepare (5 min):</strong> Each team selects their three strongest arguments and assigns a speaker for each. Find at least one specific quote or statistic from the articles to support each argument.</li>
+          <li><strong>Opening statements (2 min each):</strong> Each side presents their case without interruption. No booing. ironic as that would be.</li>
+          <li><strong>Rebuttals (1 min each):</strong> Respond directly to one argument made by the other side. Must reference something they actually said.</li>
+          <li><strong>Class vote:</strong> After the debate, vote. not on who you agreed with going in, but who made the most convincing <em>argument.</em></li>
+        </ul>
+
+        <div class="tip-box">
+          <div class="tip-icon">🎙</div>
+          <div><strong>Language for debating at B2/C1:</strong> <em>"While I understand your point about..."</em> · <em>"The evidence suggests, however, that..."</em> · <em>"This fails to account for the fact that..."</em> · <em>"Even if we accept that..., it doesn't follow that..."</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 4: WRITING -->
+    <div class="task-card reveal">
+      <div class="task-header">
+        <div class="task-num-block">
+          <div class="task-num">04</div>
+          <div class="task-type">Writing</div>
+        </div>
+        <div class="task-title-block">
+          <div class="task-label">Writing Task · 25 minutes (or homework)</div>
+          <div class="task-title">Write the Speech They Should Have Given</div>
+          <div class="task-time">⏱ Individual · 300–400 words · Opinion piece or speech</div>
+        </div>
+      </div>
+      <div class="task-body">
+        <p class="task-intro">Eric Schmidt told graduates: <em>"The future is not yet finished. It is now your turn to shape it."</em> Many students felt this was too easy. a promise with no plan behind it. Your task is to write the speech they actually wanted to hear.</p>
+
+        <div class="newspaper-mock">
+          <div class="newspaper-mock-label">Your writing space</div>
+          <div class="mock-headline">Write Your Headline Here</div>
+          <div class="mock-byline">By [Your Name] · Class of 2026</div>
+          <div class="mock-body">
+            <div class="mock-col">
+              <div class="mock-line"></div><div class="mock-line medium"></div><div class="mock-line short"></div>
+              <div class="mock-line"></div><div class="mock-line medium"></div><div class="mock-line"></div>
+            </div>
+            <div class="mock-col">
+              <div class="mock-line medium"></div><div class="mock-line"></div><div class="mock-line short"></div>
+              <div class="mock-line"></div><div class="mock-line"></div><div class="mock-line medium"></div>
+            </div>
+            <div class="mock-col">
+              <div class="mock-line"></div><div class="mock-line short"></div><div class="mock-line"></div>
+              <div class="mock-line medium"></div><div class="mock-line"></div><div class="mock-line short"></div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="task-steps" style="margin-top:1.5rem;">
+          <li><strong>Choose your format:</strong> A commencement speech (first person, spoken), a newspaper opinion piece (third person, formal), or an open letter to Eric Schmidt (second person, direct).</li>
+          <li><strong>Your opening hook:</strong> Start with a fact, a question, or a short story. not a generic greeting. Remember: the graduates booed because they felt dismissed. Show that you hear them in your very first sentence.</li>
+          <li><strong>Use the data:</strong> Reference at least two statistics from the articles. Paraphrase them. do not copy directly. Explain what they mean in human terms.</li>
+          <li><strong>Acknowledge complexity:</strong> The best speeches don't pretend the problem is simple. Address one counterargument honestly. then explain why you still hold your position.</li>
+          <li><strong>Your close:</strong> What is the one thing you want your audience to <em>do</em> differently after hearing you? End with that.</li>
+        </ul>
+
+        <div class="tip-box">
+          <div class="tip-icon">✍️</div>
+          <div><strong>Evaluation criteria:</strong> Clear argument (does your position come through?) · Evidence use (do you back up claims?) · Register (is your tone appropriate for your format?) · Coherence (does each paragraph follow from the last?) · Engagement (would your audience keep listening?)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DISCUSSION QUESTIONS -->
+<section id="discussion" class="discussion-section">
+  <div class="container">
+    <div class="section-rule" style="border-color:rgba(255,255,255,0.25)">
+      <span class="section-tag" style="color:#94a3b8">Discussion Questions</span>
+    </div>
+    <div class="discussion-header">
+      <div>
+        <h2>Let's Talk.</h2>
+        <p style="font-size:0.9rem;color:#6a6258;margin-top:0.5rem;font-family:'DM Sans',sans-serif;">Nine questions across three levels of thinking</p>
+      </div>
+      <div class="discussion-sub">Comprehension → Analysis → Your Own Life</div>
+    </div>
+
+    <div class="question-grid">
+      <div class="q-card">
+        <div class="q-num">1</div>
+        <div class="q-level">📖 Comprehension</div>
+        <div class="q-text">In your own words, why did graduates boo commencement speakers who mentioned AI? Was their reaction about technology itself, or something else?</div>
+        <div class="q-prompt">Refer to at least one specific quote from the articles.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">2</div>
+        <div class="q-level">📖 Comprehension</div>
+        <div class="q-text">What specific contradiction did graduate Sami Wargo point out about AI and her education? Why does this contradiction matter?</div>
+        <div class="q-prompt">Think about the gap between what schools say and what the job market expects.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">3</div>
+        <div class="q-level">🔍 Analysis</div>
+        <div class="q-text">The CBS News article compares the current AI boom to the "dot-com era." What happened in the dot-com era. and why might that comparison worry young people today?</div>
+        <div class="q-prompt">What does history tell us about technology hype?</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">4</div>
+        <div class="q-level">🔍 Analysis</div>
+        <div class="q-text">Eric Schmidt said the graduating class has "real power to shape how AI develops." Do you think this is a meaningful statement. or does it avoid the real question? What would "real power" actually look like?</div>
+        <div class="q-prompt">Think about who currently makes decisions about AI development.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">5</div>
+        <div class="q-level">🔍 Analysis</div>
+        <div class="q-text">The Pew Research Center found that as people learn more about AI, they become <em>more</em> skeptical of it. not less. Why do you think more knowledge leads to more doubt in this case? Is that always true with new technologies?</div>
+        <div class="q-prompt">Consider other technologies people were skeptical of at first.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">6</div>
+        <div class="q-level">🔍 Analysis</div>
+        <div class="q-text">There is a 50-point gap between AI experts (73%) and the general public (23%) on whether AI will positively impact work. What does this gap tell us? Who should we listen to. and why?</div>
+        <div class="q-prompt">Think about the word "expertise". and its limits.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">7</div>
+        <div class="q-level">💬 Your Own Life</div>
+        <div class="q-text">Are you allowed to use AI at your school? How do you feel about that policy. and does it match what you think the working world will expect of you in five years?</div>
+        <div class="q-prompt">Be honest about your own experience.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">8</div>
+        <div class="q-level">💬 Your Own Life</div>
+        <div class="q-text">If you were sitting in that graduation audience. would you have booed? Why or why not? Is there a difference between booing (which shuts someone down) and walking out (which is silent protest)?</div>
+        <div class="q-prompt">Think about different forms of protest and what they communicate.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">9</div>
+        <div class="q-level">💬 Your Own Life</div>
+        <div class="q-text">The article says the graduates didn't boo because they hate technology. they booed because they feel AI is "being done TO them" rather than built WITH them in mind. Where else in your life do you feel like decisions are made about you, without you?</div>
+        <div class="q-prompt">This could be about school, society, government, or technology. How could that change?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources" class="sources-section">
+  <div class="container">
+    <div class="section-rule"><span class="section-tag">Sources & Reading</span></div>
+    <p style="font-size:0.95rem;color:var(--muted);margin-top:0.5rem;max-width:600px;">All four articles used in this lesson are real news reports published in May 2026. Read them in full for the most complete picture of events.</p>
+
+    <div class="sources-grid reveal">
+      <div class="source-card" onclick="window.open('https://www.cbsnews.com/news/ai-backlash-college-commencements-2026/','_blank','noreferrer')" style="cursor:pointer;">
+        <div class="source-outlet">CBS News · MoneyWatch</div>
+        <div class="source-title">Recent commencement speeches show students are souring on AI. How deep is the angst?</div>
+        <div class="source-desc">Data-rich overview of the backlash, including Gallup and Pew Research statistics on young people's job anxiety and growing skepticism toward AI.</div>
+        <div class="source-url">↗ cbsnews.com/news/ai-backlash-college-commencements-2026/</div>
+      </div>
+
+      <div class="source-card" onclick="window.open('https://www.nbcnews.com/tech/tech-news/former-google-ceo-booed-graduation-speech-ai-rcna345585','_blank','noreferrer')" style="cursor:pointer;">
+        <div class="source-outlet">NBC News · Tech News</div>
+        <div class="source-title">Former Google CEO Eric Schmidt booed during graduation speech about AI</div>
+        <div class="source-desc">Detailed account of Schmidt's speech at the University of Arizona, including direct quotes from his address and his response to the booing crowd.</div>
+        <div class="source-url">↗ nbcnews.com/tech/tech-news/former-google-ceo-booed-graduation-speech-ai-rcna345585</div>
+      </div>
+
+      <div class="source-card" onclick="window.open('https://www.theguardian.com/technology/2026/may/12/florida-students-boo-graduation-speaker-ai','_blank','noreferrer')" style="cursor:pointer;">
+        <div class="source-outlet">The Guardian · Technology</div>
+        <div class="source-title">Florida students boo graduation speaker over AI remarks</div>
+        <div class="source-desc">British perspective on the Florida incidents. useful for comparing how the story was framed for an international audience.</div>
+        <div class="source-url">↗ theguardian.com/technology/2026/may/12/florida-students-boo-graduation-speaker-ai</div>
+      </div>
+
+      <div class="source-card" onclick="window.open('https://www.nytimes.com/2026/05/18/business/dealbook/university-commencement-speech-ai.html','_blank','noreferrer')" style="cursor:pointer;">
+        <div class="source-outlet">The New York Times · DealBook</div>
+        <div class="source-title">Why Graduates Are Turning Against AI at Commencement</div>
+        <div class="source-desc">Business-focused analysis of the broader economic anxiety driving the backlash, with expert commentary on AI's actual impact on entry-level employment.</div>
+        <div class="source-url">↗ nytimes.com/2026/05/18/business/dealbook/university-commencement-speech-ai.html</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem;padding:1.5rem;background:var(--cream);border-radius:3px;border-left:3px solid var(--gold);" class="reveal">
+      <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">Further Reading & Data</p>
+      <ul style="list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+        <li style="font-size:0.85rem;color:#1f2937;">📊 <span onclick="window.open('https://news.gallup.com/poll/708860/young-americans-job-market-pessimism-stands-globally.aspx','_blank','noreferrer')" style="color:var(--accent2);cursor:pointer;text-decoration:underline;">Gallup: Young Americans' Job Market Pessimism</span></li>
+        <li style="font-size:0.85rem;color:#1f2937;">📊 <span onclick="window.open('https://www.pewresearch.org/internet/2025/04/03/how-the-us-public-and-ai-experts-view-artificial-intelligence/','_blank','noreferrer')" style="color:var(--accent2);cursor:pointer;text-decoration:underline;">Pew Research: Public vs. AI Expert Views</span></li>
+        <li style="font-size:0.85rem;color:#1f2937;">🎥 <span onclick="window.open('https://www.youtube.com/watch?v=b1eM3jv0vWY','_blank','noreferrer')" style="color:var(--accent2);cursor:pointer;text-decoration:underline;">Video: Eric Schmidt's University of Arizona speech</span></li>
+        <li style="font-size:0.85rem;color:#1f2937;">🎥 <span onclick="window.open('https://www.today.com/video/ucf-commencement-speaker-s-ai-remarks-draw-boos-263230533620','_blank','noreferrer')" style="color:var(--accent2);cursor:pointer;text-decoration:underline;">Video: UCF commencement speaker booed (NBC Today)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Lesson plan created May 2026 · Based on real news reporting · For educational use · B2/C1 High School Level</p>
+  <p style="margin-top:0.5rem;">Barbara Anna Zielonka / Nannestad High School</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
